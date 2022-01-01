@@ -3,7 +3,7 @@ package src.classes;
 import java.util.Calendar;
 
 public class ApartmentAirBnb {
-    public String id;
+    private String id;
     public String apartmentName;
     public Host hostInfo;
     public Neighbourhood neighbourhoodInfo;
@@ -18,9 +18,15 @@ public class ApartmentAirBnb {
     public String calculated_host_listings_count;
     public String availability_365;
 
+    public Double getReviews_per_month() {
+        return reviews_per_month != null ? reviews_per_month : 0;
+    }
+
     public ApartmentAirBnb(String id, String apartmentName, String hostId, String hostName, String neighbourhoodGroup,
-            String neighbourhood, String latitude, String longitude, String apartmentType, String price, String minimum_nights,
-            String number_of_reviews, String lastReview, String reviews_per_month, String calculated_host_listings_count,
+            String neighbourhood, String latitude, String longitude, String apartmentType, String price,
+            String minimum_nights,
+            String number_of_reviews, String lastReview, String reviews_per_month,
+            String calculated_host_listings_count,
             String availability_365) {
 
         this.id = id;
@@ -56,7 +62,8 @@ public class ApartmentAirBnb {
     }
 
     public String printTheActualDate() {
-        return lastReview.get(Calendar.DATE) + "/" + lastReview.get(Calendar.MONTH) + "/"
-                + lastReview.get(Calendar.YEAR);
+        int day = lastReview.get(Calendar.DATE), month = lastReview.get(Calendar.MONTH), year = lastReview.get(Calendar.YEAR);
+
+        return (day < 10 ? "0" + day : "" + day) + "/" + (month < 10 ? "0" + month : "" + month) + "/" + year;  
     }
 }
