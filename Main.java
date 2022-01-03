@@ -9,13 +9,15 @@ import src.classes.ApartmentAirBnb;
 
 public class Main {
     public static void main(String[] args) throws FileNotFoundException, IOException {
-        BufferedReader readingInfo = new BufferedReader(new FileReader("src/inputCSV/listings.csv"));
         FileWriter formatingDate = new FileWriter("src/outPutCSV/listings_review_date.csv");
         FileWriter filteringAboveAverage = new FileWriter("src/outPutCSV/listings_gt_avg_prices.csv");
         FileWriter filteringBellowAverage = new FileWriter("src/outPutCSV/listings_lt_avg_prices.csv");
-        Stream<String> readInfo = readingInfo.lines();
+
+        Stream<String> readInfo = readingInformations();
         String[] reformatingStrings = reformatingInfo(readInfo);
         double averageNeighbourhood = calculingTheAverage(reformatingStrings);
+
+        ApartmentAirBnb[] sortEntry = new ApartmentAirBnb[22552];
 
         boolean passingValue = true;
         int okayInfos = 0, ErrorInfos = 0;
@@ -36,47 +38,51 @@ public class Main {
 
                 formatingDate.append(instantiatedInfo.toString());
 
-                if(instantiatedInfo.getReviews_per_month() >= averageNeighbourhood) {
+                if (instantiatedInfo.getReviews_per_month() >= averageNeighbourhood) {
                     filteringAboveAverage.append(instantiatedInfo.toString());
                 }
-                if(instantiatedInfo.getReviews_per_month() <= averageNeighbourhood) {
+                if (instantiatedInfo.getReviews_per_month() <= averageNeighbourhood) {
                     filteringBellowAverage.append(instantiatedInfo.toString());
                 }
-                
+
                 okayInfos++;
             } catch (Exception e) {
                 ErrorInfos++;
             }
         }
-        System.out.println(averageNeighbourhood);
         System.out.printf("Número de colunas passadas: %d\nNúmero de erros: %d", okayInfos, ErrorInfos);
 
-        readingInfo.close();
         formatingDate.close();
         filteringAboveAverage.close();
         filteringBellowAverage.close();
     }
-    
-    public static double calculingTheAverage(String[] entryValue) {
+
+    private static Stream<String> readingInformations() throws FileNotFoundException, IOException {
+        try (BufferedReader readingInfo = new BufferedReader(new FileReader("src/inputCSV/listings.csv"))) {
+            return readingInfo.lines();
+        }
+    }
+
+    private static double calculingTheAverage(String[] entryValue) {
         double averageReturn = 0;
         boolean firstIgnore = true;
 
         for (String string : entryValue) {
-            if(firstIgnore) {
+            if (firstIgnore) {
                 firstIgnore = !firstIgnore;
                 continue;
             }
-            String[] getter = formatingString(string.toString());
-            
-            if(getter[13] != "") {
+            String[] getter = formatingString(string);
+
+            if (getter[13].equals("")) {
                 averageReturn += Double.parseDouble(getter[13]);
             }
         }
-        
-        return averageReturn/22552;
+
+        return averageReturn / 22552;
     }
 
-    public static String[] formatingString(String entry) {
+    private static String[] formatingString(String entry) {
         String[] returnValue = new String[16];
         String forFormat = entry;
         int puttingIndex = 0, commaPos = -1, initialIndex = -1;
@@ -84,7 +90,6 @@ public class Main {
         while ((commaPos = forFormat.indexOf(",", commaPos + 1)) != -1) {
             if (forFormat.charAt(commaPos + 1) == '"') {
                 returnValue[puttingIndex] = forFormat.substring(initialIndex + 1, commaPos);
-                initialIndex = commaPos;
                 puttingIndex++;
 
                 int InitbracketPos = commaPos + 1, finalBracketPos = 0, bracketPos = 0;
@@ -92,7 +97,7 @@ public class Main {
                     finalBracketPos = bracketPos;
                 }
 
-                returnValue[puttingIndex] = forFormat.substring(InitbracketPos, finalBracketPos+1);
+                returnValue[puttingIndex] = forFormat.substring(InitbracketPos, finalBracketPos + 1);
                 initialIndex = forFormat.indexOf(",", finalBracketPos);
                 commaPos = initialIndex;
                 puttingIndex++;
@@ -108,10 +113,10 @@ public class Main {
         return returnValue;
     }
 
-    public static String[] reformatingInfo(Stream<String> entryInfo) {
+    private static String[] reformatingInfo(Stream<String> entryInfo) {
         String[] returningString = new String[22553];
         String actualString = "";
-        boolean isOkay = true;
+        boolean isOkay;
         int puttingIndex = 0;
         for (Object string : entryInfo.toArray()) {
 
@@ -130,21 +135,18 @@ public class Main {
         return returningString;
     }
 
-    public static boolean vallidatingString(String entryString) {
+    private static boolean vallidatingString(String entryString) {
         int commaPos = -1, numCommas = 0;
-        if (entryString == "\n") {
+
+        if (entryString.equals("\n")) {
             return false;
-        }
-
-        while ((commaPos = entryString.indexOf(",", commaPos + 1)) != -1) {
-
-            numCommas++;
-        }
-
-        if (numCommas >= 15) {
-            return true;
         } else {
-            return false;
+            while ((commaPos = entryString.indexOf(",", commaPos + 1)) != -1) {
+
+                numCommas++;
+            }
+
+            return numCommas >= 15;
         }
     }
 }
