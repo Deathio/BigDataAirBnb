@@ -9,9 +9,9 @@ import src.classes.ApartmentAirBnb;
 
 public class Main {
     public static void main(String[] args) throws FileNotFoundException, IOException {
-        FileWriter formatingDate = new FileWriter("src/outPutCSV/transform/listings_review_date.csv");
-        FileWriter filteringAboveAverage = new FileWriter("src/outPutCSV/transform/listings_gt_avg_prices.csv");
-        FileWriter filteringBellowAverage = new FileWriter("src/outPutCSV/transform/listings_lt_avg_prices.csv");
+        FileWriter formatingDate = new FileWriter("src/inputCSV/last_review/listings_review_date_lastReview_BestCase1.csv");
+        //FileWriter filteringAboveAverage = new FileWriter("src/outPutCSV/transform/listings_gt_avg_prices.csv");
+        //FileWriter filteringBellowAverage = new FileWriter("src/outPutCSV/transform/listings_lt_avg_prices.csv");
 
         String[] reformatingStrings = reformatingInfo(readingInformationsForTransform());
         double averageNeighbourhood = calculingTheAverage(reformatingStrings);
@@ -23,8 +23,8 @@ public class Main {
             try {
                 if (isHeadline) {
                     formatingDate.append(string + "\n");
-                    filteringAboveAverage.append(string + "\n");
-                    filteringBellowAverage.append(string + "\n");
+                    //filteringAboveAverage.append(string + "\n");
+                    //filteringBellowAverage.append(string + "\n");
                     isHeadline = !isHeadline;
                     continue;
                 }
@@ -34,10 +34,10 @@ public class Main {
                 formatingDate.append(instantiatedInfo.toString());
 
                 if (instantiatedInfo.getReviews_per_month() >= averageNeighbourhood) {
-                    filteringAboveAverage.append(instantiatedInfo.toString());
+                    //filteringAboveAverage.append(instantiatedInfo.toString());
                 }
                 if (instantiatedInfo.getReviews_per_month() <= averageNeighbourhood) {
-                    filteringBellowAverage.append(instantiatedInfo.toString());
+                    //filteringBellowAverage.append(instantiatedInfo.toString());
                 }
 
                 okayInfos++;
@@ -48,21 +48,23 @@ public class Main {
         System.out.printf("Número de colunas passadas: %d\nNúmero de erros: %d", okayInfos, ErrorInfos);
 
         formatingDate.close();
-        filteringAboveAverage.close();
-        filteringBellowAverage.close();
+        //filteringAboveAverage.close();
+        //filteringBellowAverage.close();
     }
 
     private static List<String> readingInformationsForTransform() throws FileNotFoundException, IOException {
-        try (BufferedReader readingInfo = new BufferedReader(new FileReader("src/inputCSV/listings.csv"))) {
+        try (BufferedReader readingInfo = new BufferedReader(new FileReader("src/inputCSV/last_review/listings_review_date_lastReview_BestCase.csv"))) {
             return readingInfo.lines().toList();
         }
     }
 
+    /*
     private static List<String> readingInformationsForSort() throws FileNotFoundException, IOException {
         try (BufferedReader readingInfo = new BufferedReader(new FileReader("src/inputCSV/listings.csv"))) {
             return readingInfo.lines().toList();
         }
     }
+    */
 
     private static ApartmentAirBnb getApartments(String[] getter) {
         return new ApartmentAirBnb(getter[0], getter[1], getter[2], getter[3],

@@ -1,6 +1,6 @@
 package src.classes;
 
-import java.util.Calendar;
+import org.joda.time.LocalDate;
 
 public class ApartmentAirBnb {
     private String id;
@@ -13,7 +13,7 @@ public class ApartmentAirBnb {
     public int price;
     public int minimum_nights;
     public int number_of_reviews;
-    public Calendar lastReview;
+    public LocalDate lastReview;
     public Double reviews_per_month;
     public String calculated_host_listings_count;
     public String availability_365;
@@ -53,17 +53,13 @@ public class ApartmentAirBnb {
                 calculated_host_listings_count, availability_365);
     }
 
-    public Calendar defineCalendar(String date) {
+    public LocalDate defineCalendar(String date) {
         String[] splitDate = date.split("-");
-        Calendar toReturn = Calendar.getInstance();
-        toReturn.set(Integer.parseInt(splitDate[0]), Integer.parseInt(splitDate[1]),
-                Integer.parseInt(splitDate[2]));
-        return toReturn;
+
+        return new LocalDate(Integer.parseInt(splitDate[0]), Integer.parseInt(splitDate[1]), Integer.parseInt(splitDate[2]));
     }
 
     public String printTheActualDate() {
-        int day = lastReview.get(Calendar.DATE), month = lastReview.get(Calendar.MONTH), year = lastReview.get(Calendar.YEAR);
-
-        return (day < 10 ? "0" + day : "" + day) + "/" + (month < 10 ? "0" + month : "" + month) + "/" + year;  
+        return lastReview != null ? lastReview.toString("dd/MM/YYYY") : "";
     }
 }
