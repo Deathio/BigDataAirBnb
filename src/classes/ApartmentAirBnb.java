@@ -3,7 +3,13 @@ package src.classes;
 import org.joda.time.LocalDate;
 
 public class ApartmentAirBnb {
-    private String id;
+    public enum dateInfo {
+        DAY,
+        MONTH,
+        YEAR
+    }
+
+    public String id;
     public String apartmentName;
     public Host hostInfo;
     public Neighbourhood neighbourhoodInfo;
@@ -56,10 +62,31 @@ public class ApartmentAirBnb {
     public LocalDate defineCalendar(String date) {
         String[] splitDate = date.split("-");
 
-        return new LocalDate(Integer.parseInt(splitDate[0]), Integer.parseInt(splitDate[1]), Integer.parseInt(splitDate[2]));
+        return new LocalDate(Integer.parseInt(splitDate[0]), Integer.parseInt(splitDate[1]),
+                Integer.parseInt(splitDate[2]));
+    }
+
+    public int CompareNames(ApartmentAirBnb comparation) {
+        int sizeInternalString = apartmentName.length(), sizeComparationString = comparation.apartmentName.length();
+
+        for (int passingString = 0; passingString < sizeInternalString && passingString < sizeComparationString; passingString++) {
+            return 0;
+        }
+        return 0;
     }
 
     public String printTheActualDate() {
         return lastReview != null ? lastReview.toString("dd/MM/YYYY") : "";
+    }
+
+    public int getDate(dateInfo whatIWant) {
+        if (whatIWant == dateInfo.DAY) {
+            return lastReview.getDayOfMonth();
+        } else if (whatIWant == dateInfo.MONTH) {
+            return lastReview.getMonthOfYear();
+        } else if (whatIWant == dateInfo.YEAR) {
+            return lastReview.getYear();
+        }
+        return 0;
     }
 }

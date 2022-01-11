@@ -9,11 +9,12 @@ import src.classes.ApartmentAirBnb;
 
 public class Main {
     public static void main(String[] args) throws FileNotFoundException, IOException {
-        FileWriter formatingDate = new FileWriter("src/inputCSV/last_review/listings_review_date_lastReview_BestCase1.csv");
-        //FileWriter filteringAboveAverage = new FileWriter("src/outPutCSV/transform/listings_gt_avg_prices.csv");
-        //FileWriter filteringBellowAverage = new FileWriter("src/outPutCSV/transform/listings_lt_avg_prices.csv");
+        FileWriter formatingDate = new FileWriter("src/outPutCSV/transform/listings_review_date.csv");
+        FileWriter filteringAboveAverage = new FileWriter("src/outPutCSV/transform/listings_gt_avg_prices.csv");
+        FileWriter filteringBellowAverage = new FileWriter("src/outPutCSV/transform/listings_lt_avg_prices.csv");
 
         String[] reformatingStrings = reformatingInfo(readingInformationsForTransform());
+        ApartmentAirBnb[] entrySort = new ApartmentAirBnb[22553];
         double averageNeighbourhood = calculingTheAverage(reformatingStrings);
 
         boolean isHeadline = true;
@@ -23,8 +24,8 @@ public class Main {
             try {
                 if (isHeadline) {
                     formatingDate.append(string + "\n");
-                    //filteringAboveAverage.append(string + "\n");
-                    //filteringBellowAverage.append(string + "\n");
+                    filteringAboveAverage.append(string + "\n");
+                    filteringBellowAverage.append(string + "\n");
                     isHeadline = !isHeadline;
                     continue;
                 }
@@ -34,26 +35,31 @@ public class Main {
                 formatingDate.append(instantiatedInfo.toString());
 
                 if (instantiatedInfo.getReviews_per_month() >= averageNeighbourhood) {
-                    //filteringAboveAverage.append(instantiatedInfo.toString());
+                    filteringAboveAverage.append(instantiatedInfo.toString());
                 }
                 if (instantiatedInfo.getReviews_per_month() <= averageNeighbourhood) {
-                    //filteringBellowAverage.append(instantiatedInfo.toString());
+                    filteringBellowAverage.append(instantiatedInfo.toString());
                 }
 
+                entrySort[okayInfos] = instantiatedInfo;
                 okayInfos++;
             } catch (Exception e) {
                 ErrorInfos++;
             }
         }
-        System.out.printf("Número de colunas passadas: %d\nNúmero de erros: %d", okayInfos, ErrorInfos);
+        System.out.printf("Número de colunas passadas: %d\nNúmero de erros: %d\n", okayInfos, ErrorInfos);
+        
+        System.out.println(entrySort[0].getDate(ApartmentAirBnb.dateInfo.DAY));
+        System.out.println(entrySort[0].getDate(ApartmentAirBnb.dateInfo.MONTH));
+        System.out.println(entrySort[0].getDate(ApartmentAirBnb.dateInfo.YEAR));
 
         formatingDate.close();
-        //filteringAboveAverage.close();
-        //filteringBellowAverage.close();
+        filteringAboveAverage.close();
+        filteringBellowAverage.close();
     }
 
     private static List<String> readingInformationsForTransform() throws FileNotFoundException, IOException {
-        try (BufferedReader readingInfo = new BufferedReader(new FileReader("src/inputCSV/last_review/listings_review_date_lastReview_BestCase.csv"))) {
+        try (BufferedReader readingInfo = new BufferedReader(new FileReader("src/inputCSV/listings.csv"))) {
             return readingInfo.lines().toList();
         }
     }
@@ -119,7 +125,7 @@ public class Main {
             }
         }
 
-        returnValue[puttingIndex] = forFormat.substring(initialIndex + 1, forFormat.length() - 1);
+        returnValue[puttingIndex] = forFormat.substring(initialIndex + 1, forFormat.length());
 
         return returnValue;
     }
