@@ -69,10 +69,44 @@ public class ApartmentAirBnb {
     public int CompareNames(ApartmentAirBnb comparation) {
         int sizeInternalString = apartmentName.length(), sizeComparationString = comparation.apartmentName.length();
 
-        for (int passingString = 0; passingString < sizeInternalString && passingString < sizeComparationString; passingString++) {
-            return 0;
+        for (int passingString = 0; passingString < sizeInternalString
+                && passingString < sizeComparationString; passingString++) {
+            if (apartmentName.charAt(passingString) > comparation.apartmentName.charAt(passingString)) {
+                return 1;
+            } else if (apartmentName.charAt(passingString) < comparation.apartmentName.charAt(passingString)) {
+                return -1;
+            }
         }
+        if (sizeInternalString > sizeComparationString) {
+            return 1;
+        } else if (sizeInternalString < sizeComparationString) {
+            return -1;
+        }
+
         return 0;
+    }
+
+    public int compareDates(ApartmentAirBnb comparation) {
+        int internalDay = getDate(dateInfo.DAY), internalMonth = getDate(dateInfo.MONTH),
+                internalYear = getDate(dateInfo.YEAR), comparationDay = comparation.getDate(dateInfo.DAY),
+                comparationMonth = comparation.getDate(dateInfo.MONTH),
+                comparationYear = comparation.getDate(dateInfo.YEAR);
+
+        if (internalYear == comparationYear) {
+            if (internalMonth == comparationMonth) {
+                if (internalDay == comparationDay) {
+                    return 0;
+                } else if (internalDay > comparationDay) {
+                    return 1;
+                }
+            } else if (internalMonth > comparationMonth) {
+                return 1;
+            }
+        } else if (internalYear > comparationYear) {
+            return 1;
+        }
+
+        return -1;
     }
 
     public String printTheActualDate() {
