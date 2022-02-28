@@ -52,33 +52,33 @@ public class Main {
         // ------------------------------------------------ Insertion sort ------------------------------------------------------- //
         // -------------------------------------------------- Merge sort --------------------------------------------------------- //
         // -------------------------------------------------- Quick sort --------------------------------------------------------- //
-        FileWriter Write = new FileWriter("src/outPutCSV/transform/listings_gt_avg_prices.csv");
-        FileWriter filteringBellowAverage = new FileWriter("src/outPutCSV/transform/listings_lt_avg_prices.csv");
+        // FileWriter Write = new FileWriter("src/outPutCSV/transform/listings_gt_avg_prices.csv");
+        // FileWriter filteringBellowAverage = new FileWriter("src/outPutCSV/transform/listings_lt_avg_prices.csv");
 
-        String[] reformatingStrings = FormatDocument.reformatingInfo(CsvReaders.readingInformationsForSortMediumCase());
-        double averageNeighbourhood = FormatDocument.calculingTheAverage(reformatingStrings);
+        // String[] reformatingStrings = FormatDocument.reformatingInfo(CsvReaders.readingInformationsForSortMediumCase());
+        // double averageNeighbourhood = FormatDocument.calculingTheAverage(reformatingStrings);
 
-        for (String string : reformatingStrings) {
+        // for (String string : reformatingStrings) {
 
-            if (isHeadline) {
-                formatingDate.append(string + "\n");
-                filteringAboveAverage.append(string + "\n");
-                filteringBellowAverage.append(string + "\n");
-                isHeadline = !isHeadline;
-                continue;
-            }
-            String[] getter = FormatDocument.formatingString(string);
-            ApartmentAirBnb instantiatedInfo = new ApartmentAirBnb(getter);
+        //     if (isHeadline) {
+        //         formatingDate.append(string + "\n");
+        //         filteringAboveAverage.append(string + "\n");
+        //         filteringBellowAverage.append(string + "\n");
+        //         isHeadline = !isHeadline;
+        //         continue;
+        //     }
+        //     String[] getter = FormatDocument.formatingString(string);
+        //     ApartmentAirBnb instantiatedInfo = new ApartmentAirBnb(getter);
 
-            formatingDate.append(instantiatedInfo.toString());
+        //     formatingDate.append(instantiatedInfo.toString());
 
-            if (instantiatedInfo.getReviews_per_month() >= averageNeighbourhood) {
-                filteringAboveAverage.append(instantiatedInfo.toString());
-            }
-            if (instantiatedInfo.getReviews_per_month() <= averageNeighbourhood) {
-                filteringBellowAverage.append(instantiatedInfo.toString());
-            }
-        }
+        //     if (instantiatedInfo.getReviews_per_month() >= averageNeighbourhood) {
+        //         filteringAboveAverage.append(instantiatedInfo.toString());
+        //     }
+        //     if (instantiatedInfo.getReviews_per_month() <= averageNeighbourhood) {
+        //         filteringBellowAverage.append(instantiatedInfo.toString());
+        //     }
+        // }
 
 
         // ----------------------------------------- QuickSort with a Median of 3 ------------------------------------------------ //
