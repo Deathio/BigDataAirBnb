@@ -50,6 +50,12 @@ public class ApartmentAirBnb {
         this.calculated_host_listings_count = calculated_host_listings_count;
         this.availability_365 = availability_365;
     }
+    
+    public ApartmentAirBnb(String[] getter) {
+        this(getter[0], getter[1], getter[2], getter[3],
+        getter[4], getter[5], getter[6], getter[7], getter[8], getter[9], getter[10],
+        getter[11], getter[12], getter[13], getter[14], getter[15]);
+    }
 
     @Override
     public String toString() {
@@ -87,40 +93,11 @@ public class ApartmentAirBnb {
     }
 
     public int compareDates(ApartmentAirBnb comparation) {
-        int internalDay = getDate(dateInfo.DAY), internalMonth = getDate(dateInfo.MONTH),
-                internalYear = getDate(dateInfo.YEAR), comparationDay = comparation.getDate(dateInfo.DAY),
-                comparationMonth = comparation.getDate(dateInfo.MONTH),
-                comparationYear = comparation.getDate(dateInfo.YEAR);
-
-        if (internalYear == comparationYear) {
-            if (internalMonth == comparationMonth) {
-                if (internalDay == comparationDay) {
-                    return 0;
-                } else if (internalDay > comparationDay) {
-                    return 1;
-                }
-            } else if (internalMonth > comparationMonth) {
-                return 1;
-            }
-        } else if (internalYear > comparationYear) {
-            return 1;
-        }
-
-        return -1;
+        return lastReview.compareTo(comparation.lastReview);
     }
 
     public String printTheActualDate() {
         return lastReview != null ? lastReview.toString("dd/MM/YYYY") : "";
     }
-
-    public int getDate(dateInfo whatIWant) {
-        if (whatIWant == dateInfo.DAY) {
-            return lastReview.getDayOfMonth();
-        } else if (whatIWant == dateInfo.MONTH) {
-            return lastReview.getMonthOfYear();
-        } else if (whatIWant == dateInfo.YEAR) {
-            return lastReview.getYear();
-        }
-        return 0;
-    }
+    
 }
