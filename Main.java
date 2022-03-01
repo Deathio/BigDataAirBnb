@@ -70,7 +70,7 @@ public class Main {
             return CountingSortMethod.sortNumReviews(entrada);
         };
 
-        String[][] sortingInputs = new String[3][22553];
+        String[][] sortingInputs = new String[3][22552];
         sortingInputs[0] = CsvReaders.readingInformations();
         sortingInputs[1] = CsvReaders.readingInformationsLastReviewForSortBestCase();
         sortingInputs[2] = CsvReaders.readingInformationsLastReviewForSortWorstCase();
@@ -110,9 +110,14 @@ public class Main {
 
             valor = sort.apply(valor);
 
-            for (ApartmentAirBnb apartmentAirBnb : valor) {
-                writers[index].append(apartmentAirBnb.toString());
+            for (int indexPrint = 0; indexPrint < 22552; indexPrint++) {
+                writers[index].append(valor[indexPrint].toString());
+
+                if(indexPrint >= 22519)
+                    System.out.println("oi");
             }
+
+            writers[index].close();
         }
     }
 }
