@@ -21,7 +21,7 @@ public class CountingSortTools {
         return 0;
     };
 
-    public static Comparator<ApartmentAirBnb> compareNumbers = (entry1, entry2) -> {
+    public static Comparator<ApartmentAirBnb> compareDates = (entry1, entry2) -> {
         return entry1.compareDates(entry2);
     };
 }

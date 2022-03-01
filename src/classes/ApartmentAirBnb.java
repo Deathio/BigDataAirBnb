@@ -66,10 +66,15 @@ public class ApartmentAirBnb {
     }
 
     public LocalDate defineCalendar(String date) {
-        String[] splitDate = date.split("-");
+        String[] splitDate = date.contains("-") ? date.split("-") : date.split("/");
 
-        return new LocalDate(Integer.parseInt(splitDate[0]), Integer.parseInt(splitDate[1]),
+        if(Integer.parseInt(splitDate[0]) > Integer.parseInt(splitDate[2])) {
+            return new LocalDate(Integer.parseInt(splitDate[0]), Integer.parseInt(splitDate[1]),
                 Integer.parseInt(splitDate[2]));
+        } else {
+            return new LocalDate(Integer.parseInt(splitDate[2]), Integer.parseInt(splitDate[1]),
+                Integer.parseInt(splitDate[0]));
+        }
     }
 
     public int CompareNames(ApartmentAirBnb comparation) {
@@ -99,5 +104,4 @@ public class ApartmentAirBnb {
     public String printTheActualDate() {
         return lastReview != null ? lastReview.toString("dd/MM/YYYY") : "";
     }
-    
 }

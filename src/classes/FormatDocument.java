@@ -1,7 +1,5 @@
 package src.classes;
 
-import java.util.List;
-
 public class FormatDocument {
     public static double calculingTheAverage(String[] entryValue) {
         double averageReturn = 0;
@@ -27,27 +25,32 @@ public class FormatDocument {
     public static String[] formatingString(String entry) {
         String[] returnValue = new String[16];
         String forFormat = entry;
+
         int puttingIndex = 0, commaPos = -1, initialIndex = -1;
 
-        while ((commaPos = forFormat.indexOf(",", commaPos + 1)) != -1) {
-            if (forFormat.charAt(commaPos + 1) == '"') {
-                returnValue[puttingIndex] = forFormat.substring(initialIndex + 1, commaPos);
-                puttingIndex++;
+        try {
+            while ((commaPos = forFormat.indexOf(",", commaPos + 1)) != -1) {
+                if (forFormat.charAt(commaPos + 1) == '"') {
+                    returnValue[puttingIndex] = forFormat.substring(initialIndex + 1, commaPos);
+                    puttingIndex++;
 
-                int InitbracketPos = commaPos + 1, finalBracketPos = 0, bracketPos = 0;
-                while ((bracketPos = forFormat.indexOf("\"", bracketPos + 1)) != -1) {
-                    finalBracketPos = bracketPos;
+                    int InitbracketPos = commaPos + 1, finalBracketPos = 0, bracketPos = 0;
+                    while ((bracketPos = forFormat.indexOf("\"", bracketPos + 1)) != -1) {
+                        finalBracketPos = bracketPos;
+                    }
+
+                    returnValue[puttingIndex] = forFormat.substring(InitbracketPos, finalBracketPos + 1);
+                    initialIndex = forFormat.indexOf(",", finalBracketPos);
+                    commaPos = initialIndex;
+                    puttingIndex++;
+                } else {
+                    returnValue[puttingIndex] = forFormat.substring(initialIndex + 1, commaPos);
+                    initialIndex = commaPos;
+                    puttingIndex++;
                 }
-
-                returnValue[puttingIndex] = forFormat.substring(InitbracketPos, finalBracketPos + 1);
-                initialIndex = forFormat.indexOf(",", finalBracketPos);
-                commaPos = initialIndex;
-                puttingIndex++;
-            } else {
-                returnValue[puttingIndex] = forFormat.substring(initialIndex + 1, commaPos);
-                initialIndex = commaPos;
-                puttingIndex++;
             }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
 
         returnValue[puttingIndex] = forFormat.substring(initialIndex + 1, forFormat.length());
@@ -55,12 +58,12 @@ public class FormatDocument {
         return returnValue;
     }
 
-    public static String[] reformatingInfo(List<String> entryInfo) {
+    public static String[] reformatingInfo(String[] entryInfo) {
         String[] returningString = new String[22553];
         String actualString = "";
         boolean isOkay;
         int puttingIndex = 0;
-        for (Object string : entryInfo.toArray()) {
+        for (Object string : entryInfo) {
 
             actualString += string.toString();
 

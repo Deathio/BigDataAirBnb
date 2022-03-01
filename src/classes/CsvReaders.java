@@ -4,78 +4,82 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.List;
 
 public class CsvReaders {
-    public static List<String> readingInformationsForTransform() throws FileNotFoundException, IOException {
+    public static String[] readingInformations() throws FileNotFoundException, IOException {
         try (BufferedReader readingInfo = new BufferedReader(new FileReader("src/inputCSV/listings.csv"))) {
-            return readingInfo.lines().toList();
+            return transformToString(readingInfo.lines().toArray());
         }
     }
 
-    public static List<String> readingInformationsForSortMediumCase() throws FileNotFoundException, IOException {
-        try (BufferedReader readingInfo = new BufferedReader(new FileReader("src/inputCSV/listings_mediumCase.csv"))) {
-            return readingInfo.lines().toList();
-        }
-    }
-
-    public static List<String> readingInformationsLastReviewForSortBestCase()
+    public static String[] readingInformationsLastReviewForSortBestCase()
             throws FileNotFoundException, IOException {
         try (BufferedReader readingInfo = new BufferedReader(
                 new FileReader("src/inputCSV/last_review/listings_lastReview_BestCase.csv"))) {
-            return readingInfo.lines().toList();
+            return transformToString(readingInfo.lines().toArray());
+
         }
     }
 
-    public static List<String> readingInformationsLastReviewForSortWorstCase()
+    public static String[] readingInformationsLastReviewForSortWorstCase()
             throws FileNotFoundException, IOException {
         try (BufferedReader readingInfo = new BufferedReader(
                 new FileReader("src/inputCSV/last_review/listings_lastReview_WorstCase.csv"))) {
-            return readingInfo.lines().toList();
+            return transformToString(readingInfo.lines().toArray());
         }
     }
 
-    public static List<String> readingInformationsNameForSortBestCase() throws FileNotFoundException, IOException {
+    public static String[] readingInformationsNameForSortBestCase() throws FileNotFoundException, IOException {
         try (BufferedReader readingInfo = new BufferedReader(
                 new FileReader("src/inputCSV/name/listings_name_bestCase.csv"))) {
-            return readingInfo.lines().toList();
+            return transformToString(readingInfo.lines().toArray());
         }
     }
 
-    public static List<String> readingInformationsNameForSortWorstCase() throws FileNotFoundException, IOException {
+    public static String[] readingInformationsNameForSortWorstCase() throws FileNotFoundException, IOException {
         try (BufferedReader readingInfo = new BufferedReader(
                 new FileReader("src/inputCSV/name/listings_name_worstCase.csv"))) {
-            return readingInfo.lines().toList();
+            return transformToString(readingInfo.lines().toArray());
         }
     }
 
-    public static List<String> readingInformationsReviewNumberForSortBestCase()
+    public static String[] readingInformationsReviewNumberForSortBestCase()
             throws FileNotFoundException, IOException {
         try (BufferedReader readingInfo = new BufferedReader(
                 new FileReader("src/inputCSV/number_of_reviews/listings_numReviews_BestCase.csv"))) {
-            return readingInfo.lines().toList();
+            return transformToString(readingInfo.lines().toArray());
         }
     }
 
-    public static List<String> readingInformationsReviewNumberForSortWorstCase()
+    public static String[] readingInformationsReviewNumberForSortWorstCase()
             throws FileNotFoundException, IOException {
         try (BufferedReader readingInfo = new BufferedReader(
                 new FileReader("src/inputCSV/number_of_reviews/listings_numReviews_WorstCase.csv"))) {
-            return readingInfo.lines().toList();
+            return transformToString(readingInfo.lines().toArray());
         }
     }
 
-    public static List<String> readingInformationsPriceForSortBestCase() throws FileNotFoundException, IOException {
+    public static String[] readingInformationsPriceForSortBestCase() throws FileNotFoundException, IOException {
         try (BufferedReader readingInfo = new BufferedReader(
                 new FileReader("src/inputCSV/price/listings_price_BestCase.csv"))) {
-            return readingInfo.lines().toList();
+            return transformToString(readingInfo.lines().toArray());
         }
     }
 
-    public static List<String> readingInformationsPriceForSortWorstCase() throws FileNotFoundException, IOException {
+    public static String[] readingInformationsPriceForSortWorstCase() throws FileNotFoundException, IOException {
         try (BufferedReader readingInfo = new BufferedReader(
                 new FileReader("src/inputCSV/price/listings_price_WorstCase.csv"))) {
-            return readingInfo.lines().toList();
+            return transformToString(readingInfo.lines().toArray());
         }
+    }
+
+    public static String[] transformToString(Object[] objectList) {
+        String[] newList = new String[objectList.length];
+
+        for (int i = 0; i < newList.length; i++) {
+            newList[i] = objectList[i].toString();
+        }
+
+        return newList;
     }
 }

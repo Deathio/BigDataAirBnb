@@ -1,31 +1,48 @@
 package src.classes.sort.CoutingSort;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Comparator;
 
 import src.classes.ApartmentAirBnb;
 
 public class CountingSortMethod {
-    public static List<ApartmentAirBnb> sortNumbers(List<ApartmentAirBnb> entrada) {
-        ApartmentAirBnb maxValue = entrada.stream().max(CountingSortTools.compareNumReviews).get();
+    public static ApartmentAirBnb[] sortNumReviews(ApartmentAirBnb[] entrada) {
+        ApartmentAirBnb maxValue = getMaxvalue(entrada, CountingSortTools.compareNumReviews);
+        int size2 = 10000;
 
-        List<List<ApartmentAirBnb>> newList = new ArrayList<>();
-
-        for (int indexEntrada = 0; indexEntrada <= maxValue.number_of_reviews; indexEntrada++)
-            newList.add(new ArrayList<>());
+        ApartmentAirBnb[][] newList = new ApartmentAirBnb[maxValue.number_of_reviews + 1][size2 + 1];
+        int[] indexs = new int[maxValue.number_of_reviews + 1];
 
         for (ApartmentAirBnb valores : entrada) {
-            newList.get(valores.number_of_reviews).add(valores);
+            newList[valores.number_of_reviews][indexs[valores.number_of_reviews]] = valores;
+            indexs[valores.number_of_reviews]++;
         }
 
-        List<ApartmentAirBnb> returnList = new ArrayList<>();
+        ApartmentAirBnb[] returnList = new ApartmentAirBnb[entrada.length];
 
-        for (List<ApartmentAirBnb> listaApartamentos : newList) {
+        int toGetIndex = 0, toPutInList = 0;
+        for (ApartmentAirBnb[] listaApartamentos : newList) {
+            int indexFind = 0;
             for (ApartmentAirBnb apartmentAirBnb : listaApartamentos) {
-                returnList.add(apartmentAirBnb);
+                if(indexFind >= indexs[toGetIndex]) break;
+                returnList[toPutInList] = apartmentAirBnb;
+                toPutInList++;
+                indexFind++;
             }
+            toGetIndex++;
         }
 
         return returnList;
+    }
+
+    public static ApartmentAirBnb getMaxvalue(ApartmentAirBnb[] entrada, Comparator<ApartmentAirBnb> compare) {
+        ApartmentAirBnb returnApartment = entrada[0];
+        
+        for (int index = 1; index < entrada.length; index++) {
+            if(compare.compare(returnApartment, entrada[index]) < 1) {
+                returnApartment = entrada[index];
+            }    
+        }
+
+        return returnApartment;
     }
 }
