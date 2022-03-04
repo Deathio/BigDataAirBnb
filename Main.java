@@ -50,6 +50,9 @@ public class Main {
         filteringAboveAverage.close();
         filteringBellowAverage.close();
 
+        FileWriter[] sortingWriters;
+        String[][] sortingInputs;
+
         // ------------------------------------------------ Selection sort
         // ------------------------------------------------------- //
         // ------------------------------------------------ Insertion sort
@@ -58,7 +61,7 @@ public class Main {
         // --------------------------------------------------------- //
         // -------------------------------------------------- Quick sort
         // --------------------------------------------------------- //
-        FileWriter[] sortingWriters = new FileWriter[3];
+        sortingWriters = new FileWriter[3];
         sortingWriters[0] = new FileWriter(
                 "src/outPutCSV/sort/CoutingSort/lastReview/listings_lastReview_CoutingSort_medioCaso.csv");
         sortingWriters[1] = new FileWriter(
@@ -70,12 +73,25 @@ public class Main {
             return CountingSortMethod.sortNumReviews(entrada);
         };
 
-        String[][] sortingInputs = new String[3][22552];
+        sortingInputs = new String[3][22552];
         sortingInputs[0] = CsvReaders.readingInformations();
         sortingInputs[1] = CsvReaders.readingInformationsLastReviewForSortBestCase();
         sortingInputs[2] = CsvReaders.readingInformationsLastReviewForSortWorstCase();
 
         writeCSVForSort(sortingWriters, sortingInputs, sortLastReview);
+
+        sortingWriters = new FileWriter[3];
+        sortingWriters[0] = new FileWriter(
+                "src/outPutCSV/sort/CoutingSort/names/listings_names_CountingSort_medioCaso.csv");
+        sortingWriters[1] = new FileWriter(
+                "src/outPutCSV/sort/CoutingSort/names/listings_names_CountingSort_melhorCaso.csv");
+        sortingWriters[2] = new FileWriter(
+                "src/outPutCSV/sort/CoutingSort/names/listings_names_CountingSort_piorCaso.csv");
+
+        UnaryOperator<ApartmentAirBnb[]> sortnames = entrada -> {
+            return CountingSortMethod.sortPrice(entrada);
+        };
+        
 
         // // // ----------------------------------------- QuickSort with a Median of 3
         // ------------------------------------------------ //
@@ -112,9 +128,6 @@ public class Main {
 
             for (int indexPrint = 0; indexPrint < 22552; indexPrint++) {
                 writers[index].append(valor[indexPrint].toString());
-
-                if(indexPrint >= 22519)
-                    System.out.println("oi");
             }
 
             writers[index].close();

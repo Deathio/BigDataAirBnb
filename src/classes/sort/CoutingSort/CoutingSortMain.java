@@ -1,8 +1,5 @@
 package src.classes.sort.CoutingSort;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import src.classes.ApartmentAirBnb;
 
 public class CoutingSortMain {
